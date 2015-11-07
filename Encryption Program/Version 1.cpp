@@ -11,15 +11,18 @@ using namespace std;
 
 string Input_function();
 bool Message_is_correct(string message);
-string Encryption_function(string message, int* encrypt);
+string Encryption_function(string message, int* encrypt, int len);
+void Storing_message(string msg, int len);
 
 int main()
 {//This is where the magic happens
 	string message;
 	int* encrpyt_ratio;
 	message = Input_function();
-	encrpyt_ratio = new int[message.length()];
-	message = Encryption_function(message, encrpyt_ratio);
+	int length = message.length();
+	encrpyt_ratio = new int[length];
+	message = Encryption_function(message, encrpyt_ratio,length);
+	Storing_message(message, length);
 	system("pause");
 	return 0;
 }
@@ -58,10 +61,9 @@ bool Message_is_correct(string message)
 	}
 }
 
-string Encryption_function(string message, int* encrypt)
-{
+string Encryption_function(string message, int* encrypt, int len)
+{//This function is used to encrypt the message.
 	srand(time(0));
-	int len = message.length();
 	for (int i = 0; i < len; i++)
 	{
 		int encrypter_factor = rand() % 10 + 1;
@@ -69,4 +71,12 @@ string Encryption_function(string message, int* encrypt)
 		encrypt[i] = encrypter_factor;
 	}
 	return message;
+}
+
+void Storing_message(string msg, int len)
+{//This function is used to store the encrypted message for future use.
+	ofstream output;
+	output.open("Encrypted_Message.txt");
+	output << msg;
+	output.close();
 }
